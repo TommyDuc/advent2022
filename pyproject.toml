@@ -1,0 +1,16 @@
+[project]
+name = "AOC 2022"
+version = ""
+description = "TD'S advent of 2022"
+authors = [
+    {name = "Tommy Duchesne", email = "tommy.duchesne2@gmail.com"},
+]
+dependencies = [
+    "pytest",
+]
+requires-python = ">=3.10"
+license = {text = "CLOSED"}
+
+[build-system]
+build-backend = "pdm.pep517.api"
+requires = ["pdm-pep517"]
