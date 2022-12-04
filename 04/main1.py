@@ -14,9 +14,14 @@ def read_line(line: str) -> tuple[tuple[int, int], tuple[int, int]]:
 
 
 def pairs_are_contained(pairs: tuple[tuple[int, int], tuple[int, int]]) -> bool:
-    set0 = set(range(pairs[0][0], pairs[0][1]+1))
-    set1 = set(range(pairs[1][0], pairs[1][1]+1))
-    return set0.issuperset(set1) or set1.issuperset(set0)
+    big_set_is_0 = (pairs[0][1] - pairs[0][0]) >= (pairs[1][1] - pairs[1][0])
+    big_set = pairs[0] if big_set_is_0 else pairs[1]
+    small_set = pairs[0] if not big_set_is_0 else pairs[1]
+    if small_set[0] - big_set[0] < 0:
+        return False
+    if big_set[1] - small_set[1] < 0:
+        return False
+    return True
 
 
 parsed_groups = list(map(read_line, input_))
