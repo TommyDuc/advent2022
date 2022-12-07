@@ -9,27 +9,20 @@ with open(f"{os.path.dirname(__file__)}/{INPUT_FILE}", mode='r') as file:
     input_ = list(file.readlines())
 
 
-num_line_re = re.compile(r"\s*(\d+)")
-crates_re = re.compile(r"\s*\[\w]\s*")
+crates_re = re.compile(r"\s?\[\w]\s?")
 moves_re = re.compile(r"move (\d+) from (\d+) to (\d+)")
 
-num_line = next(filter(num_line_re.match, input_))
 crates_lines = list(line for line in iter(input_) if crates_re.match(line))
 moves_lines = list(line for line in iter(input_) if moves_re.match(line))
-i_crate_pos: [list[tuple[int, int]]] = list(
-    (i, int(c))
-    for (i, c) in enumerate(num_line)
-    if c.strip(' \n'))
 
 CratesType = Dict[int, deque[str]]
 crates: CratesType = defaultdict(deque)
-for i, crate_pos in i_crate_pos:
-    for crate_line in crates_lines:
-        if i >= len(crate_line):
+for crate_line in crates_lines:
+    for i, c in enumerate(crate_line):
+        if c in '\n []':
             continue
+        crate_pos = i // 4 + 1
         crate_id = crate_line[i]
-        if crate_id in '\n []':
-            continue
         crates[crate_pos].appendleft(crate_id)
 
 
